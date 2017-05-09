@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    
+    
+    <ImageView
+        android:id="@+id/marker_picture"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_action_place"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp" />
+    
+    <TextView
+        android:id="@+id/marker_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/marker_picture"
+        android:layout_toEndOf="@+id/marker_picture" 
+        android:layout_margin="5dp" />
+    
+    <TextView android:id="@+id/marked_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/marker_picture"
+        android:layout_margin="5dp" />
+    
+    <RatingBar android:id="@+id/marker_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_below="@+id/marker_name"
+        android:layout_toRightOf="@+id/marker_picture"
+        android:layout_toEndOf="@+id/marker_picture" 
+        android:layout_margin="5dp" />
+
+</RelativeLayout>

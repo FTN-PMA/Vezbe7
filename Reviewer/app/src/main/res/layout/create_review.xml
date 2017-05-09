@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/review_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/review_name_edit"
+        android:layout_alignBottom="@+id/review_name_edit"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/review_name"
+        android:layout_margin="5dp" />
+    
+    <EditText 
+        android:id="@id/review_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/review_name_edit"
+        android:layout_toRightOf="@id/review_name"
+        android:layout_toEndOf="@id/review_name" 
+        android:layout_margin="5dp"/>
+    
+   	<TextView
+        android:id="@+id/review_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/choose_review_picture"
+        android:layout_alignBottom="@+id/choose_review_picture"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/review_picture" 
+        android:layout_below="@id/review_name"
+        android:layout_margin="5dp"/>
+   	
+   	<Button 
+        android:id="@+id/choose_review_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_new_picture"
+        android:drawableStart="@drawable/ic_action_new_picture"
+        android:layout_toRightOf="@id/review_picture"
+        android:layout_toEndOf="@id/review_picture"
+        android:layout_below="@id/review_name_edit"
+        android:layout_margin="5dp"/>
+   	
+   	<ImageView 
+   	    android:id="@+id/review_image"
+   	    android:contentDescription="@null"
+        android:layout_toRightOf="@id/choose_review_picture"
+        android:layout_toEndOf="@id/choose_review_picture"
+        android:layout_below="@id/review_name_edit"
+        android:src="@drawable/ic_action_picture"
+        android:layout_height="48dp"
+        android:layout_width="48dp"
+        android:scaleType="centerInside"
+        android:layout_margin="5dp"/>
+   	
+   	<TextView
+   	    android:id="@+id/review_rating"
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:layout_below="@id/review_picture"
+   	    android:text="@string/review_rating"
+   	    android:layout_margin="5dp" />
+   	
+   	<RatingBar 
+        android:id="@+id/review_rating_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/review_rating"
+        android:numStars="5"
+        android:layout_margin="5dp"/>
+   	
+   	<TextView
+        android:id="@+id/review_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/review_tags" 
+        android:layout_alignBaseline="@+id/choose_tags"
+   	    android:layout_alignBottom="@+id/choose_tags"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_alignParentStart="true"
+   	    android:layout_below="@id/review_rating"
+        android:layout_margin="5dp"/>
+   	
+   	<Button 
+        android:id="@+id/choose_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_labels"
+        android:drawableStart="@drawable/ic_action_labels"
+        android:layout_toRightOf="@id/review_tags"
+        android:layout_toEndOf="@id/review_tags"
+        android:layout_below="@id/review_rating_choose"
+        android:layout_margin="5dp"/>
+   	
+   	<TextView
+   	    android:id="@+id/review_tags_list"
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignBaseline="@id/choose_tags"
+   	    android:layout_below="@id/review_tags"
+   	    android:layout_margin="5dp"
+   	    android:layout_toEndOf="@id/choose_tags"
+   	    android:layout_toRightOf="@+id/review_image"
+   	    android:hint="@string/review_tags_list" />
+   	
+   	<TextView
+        android:id="@+id/review_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/review_description" 
+        android:layout_below="@id/review_tags_list"
+        android:layout_margin="5dp"/>
+   	
+   	<EditText 
+        android:id="@+id/review_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/review_desc"
+        android:layout_below="@id/review_description" 
+        android:layout_margin="5dp"/>
+
+   	<Button
+   	    android:id="@+id/remove_review_tags"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_below="@+id/review_rating_choose"
+   	    android:layout_margin="5dp"
+   	    android:layout_toRightOf="@+id/choose_tags"
+   	    android:layout_toEndOf="@+id/choose_tags" 
+   	    android:contentDescription="@string/remove_item"
+   	    android:drawableLeft="@drawable/ic_stat_content_backspace"
+   	    android:drawableStart="@drawable/ic_stat_content_backspace" />
+
+</RelativeLayout>

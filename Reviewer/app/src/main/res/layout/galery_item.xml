@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@color/material_blue_white" >
+ 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:contentDescription="@string/review_image"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center_horizontal" 
+        android:padding="5dp"/> 
+ 
+</LinearLayout>
