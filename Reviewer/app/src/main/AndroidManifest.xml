@@ -27,8 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name="rs.reviewer.sync.SyncReceiver"></receiver>
-        <service android:name="rs.reviewer.sync.auto.SyncService"></service>
+        <receiver android:name="rs.reviewer.sync.SyncReceiver" />
+        <service android:name="rs.reviewer.sync.auto.SyncService" />
 
         <activity
             android:name="rs.reviewer.MainActivity"
