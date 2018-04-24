@@ -8,7 +8,7 @@ Potrebno je da specificirate adresu vase masine koju mozete dobiti pozivom koman
 Traziti adresu koja pocinje sa 192.168.x.x
 
 Tako da konacan poziv bude u formatu:
-http://<service_ip_adress>:<service_port>/<putanja_do_web_service>/<metoda>/
+'http://<service_ip_adress>:<service_port>/<putanja_do_web_service>/<metoda>/'
 
 Primer:
 http://192.168.43.73:8080/rs.ftn.reviewer.rest/rest/proizvodi/
