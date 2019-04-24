@@ -15,3 +15,8 @@ http://192.168.43.73:8080/rs.ftn.reviewer.rest/rest/proizvodi/
 
 NAPOMENA: mobilni uredjaj i racunar na kom se izvrsava web service treba da budu u istoj lokalnoj mrezi.
 Osim ako se web service ne izvrsava na masini nekog javnog provider-a koji ima javnu IP adresu.
+
+Retrofit tutorial:
+https://medium.com/@prakash_pun/retrofit-a-simple-android-tutorial-48437e4e5a23
+
+https://www.journaldev.com/13639/retrofit-android-example-tutorial
