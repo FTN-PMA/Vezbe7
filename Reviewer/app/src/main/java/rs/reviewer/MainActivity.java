@@ -25,11 +25,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,21 +33,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import android.widget.Toast;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import rs.reviewer.activities.ReviewerPreferenceActivity;
 import rs.reviewer.adapters.DrawerListAdapter;
-import rs.reviewer.fragments.AboutFragment;
 import rs.reviewer.fragments.MyMapFragment;
-import rs.reviewer.fragments.ProfileFragment;
-import rs.reviewer.fragments.reviewobjects.ReviewObjectsListFragment;
 import rs.reviewer.model.NavItem;
 import rs.reviewer.sync.SyncReceiver;
-import rs.reviewer.sync.auto.SyncService;
-import rs.reviewer.tools.CurrentUser;
+import rs.reviewer.sync.SyncService;
 import rs.reviewer.tools.FragmentTransition;
 import rs.reviewer.tools.ReviewerTools;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,26 +55,18 @@ public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private RelativeLayout mDrawerPane;
-    private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     
     //Sync stuff
     private PendingIntent pendingIntent;
 	private AlarmManager manager;
-	private SharedPreferences sharedPreferences;
-	
-	private SyncReceiver sync;
+
+    private SyncReceiver sync;
 	public static String SYNC_DATA = "SYNC_DATA";
-	public static String SYNC_TIME = "SYNC_TIME";
-	public static String NEW_COMMENTS = "NEW_COMMENTS";
 	
 	private String synctime;
 	private boolean allowSync;
-	private String lookupRadius;
-	
-	private boolean allowReviewNotif;
-	private boolean allowCommentedNotif;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         
         prepareMenu(mNavItems);
         
-        mTitle = mDrawerTitle = getTitle();
+        mTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerList = (ListView) findViewById(R.id.navList);
         
@@ -104,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         // enable ActionBar app icon to behave as action to toggle nav drawer
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -113,19 +100,10 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
         }
 
-
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
-
-        // OVO NE MORA DA SE KORISTI, UKOLIKO SE NE KORISTI
-        // ONDA SE NE MENJA TEKST PRILIKOM OPEN CLOSE DRAWERA POGLEDATI JOS
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                toolbar,
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
                 ) {
@@ -148,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         }
         
         setUpReceiver();
-        
+        consultPreferences();
     }
     
     private void setUpReceiver(){
@@ -159,38 +137,19 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getService(this, 0, alarmIntent, 0);
         
         manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        
-        consultPreferences();
     }
 
     private void consultPreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     	synctime = sharedPreferences.getString(getString(R.string.pref_sync_list), "1");//1min
     	allowSync = sharedPreferences.getBoolean(getString(R.string.pref_sync), false);
-    	
-    	lookupRadius = sharedPreferences.getString(getString(R.string.pref_radius), "1");//1km
-    	
-    	allowCommentedNotif = sharedPreferences.getBoolean(getString(R.string.notif_on_my_comment_key), false);
-    	allowReviewNotif = sharedPreferences.getBoolean(getString(R.string.notif_on_my_review_key), false);
-    	
-    	//Toast.makeText(MainActivity.this, allowSync+" "+lookupRadius+" "+synctime, Toast.LENGTH_LONG).show();
     }
-    
-	private void setUpUserName(){
-		String usernameContent = CurrentUser.getName(this);
-		TextView userName = (TextView) findViewById(R.id.userName);
-		userName.setText(usernameContent);
-	}
     
     @Override
     protected void onResume() {
     	// TODO Auto-generated method stub
     	super.onResume();
-    	
-    	//da postavi naziv korisnika
-    	setUpUserName();
-    	
+
     	//Za slucaj da referenca nije postavljena da se izbegne problem sa androidom!
     	if (manager == null) {
     		setUpReceiver();
@@ -199,11 +158,10 @@ public class MainActivity extends AppCompatActivity {
     	if(allowSync){
 	    	int interval = ReviewerTools.calculateTimeTillNextSync(Integer.parseInt(synctime));
 	    	manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-	        //Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+	        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
     	}
     	
     	IntentFilter filter = new IntentFilter();
-    	filter.addAction(NEW_COMMENTS);
     	filter.addAction(SYNC_DATA);
     	
     	registerReceiver(sync, filter);
@@ -224,38 +182,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /* Called whenever we call invalidateOptionsMenu() */
-    /*@Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-    	// If the nav drawer is open, hide action items related to the content view
-    	boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerPane);
-    	menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-    	return super.onPrepareOptionsMenu(menu);
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-         // The action bar home/up action should open or close the drawer.
-         // ActionBarDrawerToggle will take care of this.
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle action buttons
-        /*switch(item.getItemId()) {
-        case R.id.action_websearch:
-            // create intent to perform web search for this planet
-            Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-            intent.putExtra(SearchManager.QUERY, getActionBar().getTitle());
-            // catch event that there's no activity to handle intent
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-            }
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }*/
         return super.onOptionsItemSelected(item);
     }
 
@@ -272,12 +203,10 @@ public class MainActivity extends AppCompatActivity {
     	if(position == 0){
     		FragmentTransition.to(MyMapFragment.newInstance(), this, false);
         }else if(position == 1){
-        	FragmentTransition.to(new ReviewObjectsListFragment(), this);
         }else if(position == 2){
         	Intent preference = new Intent(MainActivity.this,ReviewerPreferenceActivity.class);
         	startActivity(preference);
         }else if(position == 3){
-        	FragmentTransition.to(new AboutFragment(), this);
         }else if(position == 4){
         	startService(new Intent(this, SyncService.class));
         }else{
@@ -315,8 +244,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getProfile(View view){
-    	//Toast.makeText(this, "User", Toast.LENGTH_LONG).show();
-    	FragmentTransition.to(new ProfileFragment(), this);
     	mDrawerLayout.closeDrawer(mDrawerPane);
     }
     

@@ -7,18 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-    <uses-permission android:name="android.permission.CAMERA"/>
-
-
-    <permission
-        android:name="com.newthinktank.derekbanas.mappy.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -28,23 +17,17 @@
         android:theme="@style/AppTheme">
 
         <receiver android:name="rs.reviewer.sync.SyncReceiver" />
-        <service android:name="rs.reviewer.sync.auto.SyncService" />
+        <service android:name="rs.reviewer.sync.SyncService" />
 
         <activity
             android:name="rs.reviewer.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
 
         <activity
             android:name=".activities.SplashScreenActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,33 +46,5 @@
 
         </activity>
 
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyA9VamcLLWST1uOMwoJqbOS5oviKKogHIY"/>
-
-        <!--AIzaSyCcsxT5XnuObvCohL-YMzuc1aCTDydvUxI-->
-        <meta-data
-            android:name="AA_MODELS"
-            android:value="rs.reviewer.model.Comment,
-    					   rs.reviewer.model.Group,
-    					   rs.reviewer.model.GroupToReview,
-    					   rs.reviewer.model.GroupToUser,
-    					   rs.reviewer.model.ReviewObject,
-    					   rs.reviewer.model.TagToReview,
-    					   rs.reviewer.model.User,
-    					   rs.reviewer.model.Image,
-    					   rs.reviewer.model.Review,
-    					   rs.reviewer.model.Tag,
-    					   rs.reviewer.model.TagToReviewObject,
-    					   rs.reviewer.model.DeletedEntry" />
-
-        <provider android:authorities="rs.reviewer" android:exported="false" android:name="com.activeandroid.content.ContentProvider" />
-
-
     </application>
-
-
-
-
 </manifest>

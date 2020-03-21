@@ -1,10 +1,9 @@
-package rs.reviewer.sync.auto;
+package rs.reviewer.sync;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-
-import java.util.Date;
+import android.util.Log;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -13,7 +12,6 @@ import retrofit2.Response;
 import rs.reviewer.MainActivity;
 import rs.reviewer.model.TagToSend;
 import rs.reviewer.service.ServiceUtils;
-import rs.reviewer.sync.tasks.SyncTask;
 import rs.reviewer.tools.ReviewerTools;
 
 public class SyncService extends Service {
@@ -28,9 +26,7 @@ public class SyncService extends Service {
 		ints.putExtra(RESULT_CODE, status);
 		
 		//ima konekcije ka netu skini sta je potrebno i sinhronizuj bazu
-		if(status == ReviewerTools.TYPE_WIFI){
-//			new SyncTask(getApplicationContext()).execute();
-
+		if(status == ReviewerTools.TYPE_WIFI || status == ReviewerTools.TYPE_MOBILE){
 			TagToSend tts = new TagToSend();
 			tts.setName("Test tag");
 			tts.setDateModified("2017-05-09");
@@ -38,16 +34,18 @@ public class SyncService extends Service {
 			call.enqueue(new Callback<ResponseBody>() {
 				@Override
 				public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-					System.out.println("Meesage recieved");
+					if (response.code() == 200){
+						Log.d("REZ","Meesage recieved");
+					}else{
+						Log.d("REZ","Meesage recieved: "+response.code());
+					}
 				}
 
 				@Override
 				public void onFailure(Call<ResponseBody> call, Throwable t) {
-					System.out.println("Error!");
+					Log.d("REZ", t.getMessage() != null?t.getMessage():"error");
 				}
 			});
-
-
 		}
 		
 		sendBroadcast(ints);

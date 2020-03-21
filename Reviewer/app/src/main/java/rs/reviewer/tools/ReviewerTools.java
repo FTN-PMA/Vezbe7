@@ -9,10 +9,6 @@ import android.net.NetworkInfo;
 import android.util.Base64;
 
 //import com.appspot.elevated_surge_702.crud.model.MessagesCommentMessage;
-import rs.reviewer.model.Comment;
-import rs.reviewer.model.Review;
-import rs.reviewer.model.Tag;
-import rs.reviewer.model.User;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -178,16 +174,4 @@ public class ReviewerTools {
 //
 //		return nums;
 //	}
-	
-	public static List<Tag> stringListToTagList(List<String> tagFilter)
-	{
-		List<Tag> tags = new ArrayList<Tag>();
-		
-		for(String tagId : tagFilter)
-		{
-			tags.add(Tag.getByModelId(Tag.class, tagId));
-		}
-		
-		return tags;
-	}
 }
