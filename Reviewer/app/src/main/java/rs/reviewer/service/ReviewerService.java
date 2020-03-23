@@ -10,6 +10,10 @@ import rs.reviewer.model.TagToSend;
 /**
  * Created by skapl on 09-May-17.
  */
+/*
+ * Klasa koja opisuje koji tj mapira putanju servisa
+ * opisuje koji metod koristimo ali i sta ocekujemo kao rezultat
+ * */
 public interface ReviewerService {
 
     @Headers({

@@ -1,41 +1,53 @@
 package rs.reviewer.activities;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.view.MenuItem;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
+import androidx.preference.PreferenceFragmentCompat;
 import rs.reviewer.R;
+import rs.reviewer.tools.FragmentTransition;
 
-public class ReviewerPreferenceActivity extends PreferenceActivity {
-	
-	@SuppressWarnings("deprecation")
+public class ReviewerPreferenceActivity extends AppCompatActivity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		addPreferencesFromResource(R.xml.preferences);
-
-
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
+		setContentView(R.layout.settings_layout);
+		FragmentTransition.to(PrefsFragment.newInstance(), this);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    // Respond to the action bar's Up/Home button
-	    case android.R.id.home:
-	        NavUtils.navigateUpFromSameTask(this);
-	        return true;
-	    }
-	    return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+			// Respond to the action bar's Up/Home button
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		//getActionBar().setTitle(R.string.preferences);
 	}
-	
+
+	public static class PrefsFragment extends PreferenceFragmentCompat {
+
+		private static PrefsFragment newInstance() {
+			Bundle args = new Bundle();
+
+			PrefsFragment fragment = new PrefsFragment();
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		@Override
+		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+			addPreferencesFromResource(R.xml.preferences);
+		}
+	}
+
 }

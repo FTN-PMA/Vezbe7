@@ -30,6 +30,15 @@ public class SyncService extends Service {
 			TagToSend tts = new TagToSend();
 			tts.setName("Test tag");
 			tts.setDateModified("2017-05-09");
+
+			/*
+			 * Poziv REST servisa se odvija u pozadini i mi ne moramo da vodimo racuna o tome
+			 * Samo je potrebno da registrujemo sta da se desi kada odgovor stigne od nas
+			 * Taj deo treba da implementiramo dodavajuci Callback<List<Event>> unutar enqueue metode
+			 *
+			 * Servis koji pozivamo izgleda:
+			 * http://<service_ip_adress>:<service_port>/rs.ftn.reviewer.rest/rest/proizvodi/
+			 * */
 			Call<ResponseBody> call = ServiceUtils.reviewerService.add(tts);
 			call.enqueue(new Callback<ResponseBody>() {
 				@Override
